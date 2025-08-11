@@ -1,17 +1,19 @@
 {
-	"release": {
-		"branches": [
-			"master"
-		],
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-		"@semantic-release/release-notes-generator",
-		"@semantic-release/github",
-		{
-			"assets": [
-				"*" 
-			]
-		}
-		],
-	},
+  "release": {
+    "branches": [
+      "master"
+    ]
+  },
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+    "@semantic-release/github",
+			{
+				"assets": [
+					{ "path": "README.md", "label": "readme file"},
+				]
+			}
+    ]
+  ]
 }
