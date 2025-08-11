@@ -10,7 +10,7 @@
     "@semantic-release/github",
     {
       "assets": [
-        { "path": "README.md", "label": "Readme file"}
+        "*" 
       ]
     }
   ]
