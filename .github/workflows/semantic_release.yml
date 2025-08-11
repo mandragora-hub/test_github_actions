@@ -28,29 +28,29 @@ jobs:
       with:
         node-version: "lts/*"
 
-    - name: Dry run semantic-release to get next version
-      id: dry_run # Give this step an ID to reference its outputs
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        echo "Running semantic-release dry run..."
-        NEXT_VERSION=$(npx semantic-release --dry-run --no-ci | tee /dev/stderr | grep -oP 'The next release version is \K\d+\.\d+\.\d+(-\S+)?')
-
-        if [ -n "$NEXT_VERSION" ]; then
-          echo "::notice file=dry_run_output.txt::Detected next version: $NEXT_VERSION"
-          echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
-          echo "will_publish=true" >> "$GITHUB_OUTPUT" # Assuming if version found, it will publish
-        else
-          echo "::warning file=dry_run_output.txt::No next version determined by semantic-release dry-run."
-          echo "next_version=" >> "$GITHUB_OUTPUT" # Output empty string if no version
-          echo "will_publish=false" >> "$GITHUB_OUTPUT"
-        fi
-        
-        # You might also want to capture the full dry run output for later analysis
-        npx semantic-release --dry-run --no-ci > semantic-release-dry-run.log
-
+          ##- name: Dry run semantic-release to get next version
+          ##id: dry_run # Give this step an ID to reference its outputs
+          ##env:
+          ##GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ##run: |
+          ##echo "Running semantic-release dry run..."
+          ##NEXT_VERSION=$(npx semantic-release --dry-run --no-ci | tee /dev/stderr | grep -oP 'The next release version is \K\d+\.\d+\.\d+(-\S+)?')
+          ##
+          ##if [ -n "$NEXT_VERSION" ]; then
+          ##echo "::notice file=dry_run_output.txt::Detected next version: $NEXT_VERSION"
+          ##echo "next_version=$NEXT_VERSION" >> "$GITHUB_OUTPUT"
+          ##echo "will_publish=true" >> "$GITHUB_OUTPUT" # Assuming if version found, it will publish
+          ##else
+          ##echo "::warning file=dry_run_output.txt::No next version determined by semantic-release dry-run."
+          ##echo "next_version=" >> "$GITHUB_OUTPUT" # Output empty string if no version
+          ##echo "will_publish=false" >> "$GITHUB_OUTPUT"
+          ##fi
+          ##
+          ### You might also want to capture the full dry run output for later analysis
+          ##npx semantic-release --dry-run --no-ci > semantic-release-dry-run.log
+          ##
     - name: Release
-      if: ${{ steps.dry_run.outputs.next_version != '' }} # Only run if a version was determined
+      #if: ${{ steps.dry_run.outputs.next_version != '' }} # Only run if a version was determined
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: npx semantic-release --debug true
